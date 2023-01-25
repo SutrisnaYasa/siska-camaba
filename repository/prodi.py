@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 import models, schemas
 from fastapi import HTTPException, status
 
-def get_all(db: Session):
+def get_all_prodi(db: Session):
     prodi_all = db.query(models.Prodi).all()
     return prodi_all
 

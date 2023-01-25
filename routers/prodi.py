@@ -1,6 +1,6 @@
 from typing import List
 from fastapi import APIRouter, Depends, status, HTTPException
-import schemas, database, models
+import schemas, database, models, auth
 from sqlalchemy.orm import Session
 from repository import prodi
 
@@ -12,7 +12,7 @@ get_db = database.get_db
 
 @router.get('/', response_model = List[schemas.ShowProdi], status_code = status.HTTP_200_OK)
 def all(db: Session = Depends(get_db)):
-    return prodi.get_all(db)
+    return prodi.get_all_prodi(db)
 
 @router.post('/', status_code = status.HTTP_201_CREATED)
 def create(request: schemas.Prodi, db: Session = Depends(get_db)):
@@ -27,5 +27,5 @@ def update(id: int, request: schemas.Prodi, db: Session = Depends(get_db)):
     return prodi.update(id, request, db)
 
 @router.get('/{id}', status_code = status.HTTP_200_OK, response_model = schemas.ShowProdi)
-def show(id: int, db: Session = Depends(get_db)):
+def show(id: int, db: Session = Depends(get_db), active: bool = Depends(auth.check_admin)):
     return prodi.show(id, db)
