@@ -1,6 +1,7 @@
 from enum import Enum
 from typing import List, Optional
 from pydantic import BaseModel
+from fastapi import FastAPI, Form, Depends, UploadFile
 
 # Membuat Pilihan Untuk Role
 class Roles(str, Enum):
@@ -74,3 +75,20 @@ class ShowProdi(BaseModel):
     class Config():
         orm_mode = True
 # End Schemas Master Prodi
+
+
+# Schemas Untuk Biodata
+class BiodataBase(BaseModel):
+    nama: str = Form(...)
+
+class Biodata(BiodataBase):
+    class Config():
+        orm_mode = True
+
+class ShowBiodata(BaseModel):
+    nama: str
+    nama_file: str
+
+    class Config():
+        orm_mode = True
+# End Schemas Biodata

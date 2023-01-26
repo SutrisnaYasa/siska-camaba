@@ -35,3 +35,12 @@ class Prodi(Base):
     created_at = Column(DateTime(timezone = True), server_default = func.now())
     updated_at = Column(DateTime(timezone = True), onupdate = func.now())
     prodis = relationship("Fakultas", back_populates = "fakultass")
+
+# Models untuk Master Biodata
+class Biodata(Base):
+    __tablename__ = 'biodata_mhs'
+    id_biodata = Column(Integer, primary_key = True, index = True)
+    nama = Column(String(100))
+    nama_file = Column(String(100))
+    created_at = Column(DateTime(timezone = True), server_default = func.now())
+    updated_at = Column(DateTime(timezone = True), onupdate = func.now())
