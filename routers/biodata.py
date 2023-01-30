@@ -3,6 +3,8 @@ from fastapi import APIRouter, Depends, status, HTTPException, UploadFile, File,
 import schemas, database, models, auth
 from sqlalchemy.orm import Session
 from repository import biodata
+from fastapi.responses import FileResponse
+from os import getcwd
 
 router = APIRouter(
     prefix = "/biodata",
@@ -34,3 +36,12 @@ def update(id: int, request: schemas.Biodata, db: Session = Depends(get_db)):
 @router.get('/{id}', status_code = status.HTTP_200_OK, response_model = schemas.ShowBiodata)
 def show(id: int, db: Session = Depends(get_db)):
     return biodata.show(id, db)
+
+
+@router.get("/download/{name_file}")
+def download_file(name_file: str):
+    return FileResponse(path=getcwd() + "/images/" + name_file, media_type='application/octet-stream', filename=name_file)
+
+@router.get("/file/{name_file}")
+def get_file(name_file: str):
+    return FileResponse(path=getcwd() + "/images/" + name_file)
